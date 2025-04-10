@@ -1,0 +1,4 @@
+ public function transactions() {
+        $data['transactions'] = $this->borrow_model->transaction();
+        $this->load->view('transaction_view', $data);
+    }
