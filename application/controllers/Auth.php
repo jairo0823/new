@@ -20,7 +20,10 @@ class Auth extends CI_Controller {
         $user = $this->User_model->get_user_by_email($email);
 
         if ($user && password_verify($password, $user['password'])) {
-            $this->session->set_userdata('user_id', $user['id']);
+            $this->session->set_userdata(
+               [ 'user_id'=> $user['id'],
+                'user_name' => $user['name']]
+            );
             redirect('library');
         } else {
             $this->session->set_flashdata('error', 'Invalid email or password');
