@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transaction History - Library Management System</title>
+<link rel="stylesheet" type="text/css" href="<?= base_url('assets/dataTables.dataTables.min.css'); ?>">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css&quot; rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"&gt;
+<style>
+body {
+background-color: #f5f5dc; /* Beige background */
+padding: 20px;
+}
+.container {
+max-width: 1200px;
+margin: 0 auto;
+background-color: #fff8e1; /* Light beige container */
+padding: 30px;
+border-radius: 10px;
+box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 30px;
+padding-bottom: 20px;
+border-bottom: 2px solid #d7cba7; /* Subtle beige border */
+}
+.nav-buttons {
+display: flex;
+gap: 10px;
+}
+.btn-nav {
+padding: 8px 15px;
+border-radius: 4px;
+text-decoration: none;
+color: white;
+display: inline-flex;
+align-items: center;
+gap: 5px;
+transition: all 0.3s ease;
+}
+.btn-nav:hover {
+transform: translateY(-2px);
+color: white;
+}
+.btn-back {
+background-color: #9e9d24; /* Olive green for back button */
+}
+.btn-logout {
+background-color: #d32f2f; /* Red for logout button */
+}
+.table-container {
+margin-top: 20px;
+}
+.table {
+background-color: white;
+}
+.date-cell {
+white-space: nowrap;
+}
+</style>
+<script type="text/javascript" charset="utf8" src="<?= base_url('assets/jquery-3.7.1.min.js'); ?>"></script>
+<script type="text/javascript" charset="utf8" src="<?= base_url('assets/dataTables.min.js'); ?>"></script>
+<script>
+$(document).ready(function() {
+$('#transactionTable').DataTable({
+responsive: true,
+order: [[2, 'desc']], // Sort by borrow date by default
+pageLength: 25 // Show 25 entries per page
+});
+});
+</script>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1><i class="fas fa-history"></i> Transaction History</h1>
+<div class="nav-buttons">
+<a href="<?= site_url('library') ?>" class="btn-nav btn-back">
+<i class="fas fa-arrow-left"></i> Back to Library
+</a>
+<a href="<?= site_url('auth/logout') ?>" class="btn-nav btn-logout">
+<i class="fas fa-sign-out-alt"></i> Logout
+</a>
+</div>
+</div>
+
+<div class="table-container">
+<table id="transactionTable" class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Borrower Name</th>
+<th>Book Title</th>
+<th>Borrow Date</th>
+<th>Return Date</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($transactions as $transaction): ?>
+<tr>
+<td><?= htmlspecialchars($transaction['borrower']); ?></td>
+<td><?= htmlspecialchars($transaction['book_title']); ?></td>
+<td class="date-cell"><?= date('M d, Y', strtotime($transaction['borrow_date'])); ?></td>
+<td class="date-cell">
+<?= $transaction['return_date'] ? date('M d, Y', strtotime($transaction['return_date'])) : '-'; ?>
+</td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script&gt;
+</body>
+</html>
